@@ -1,6 +1,6 @@
 # Study Group Organizer
 
-A modern, feature-rich web application for students to create, join, and manage study groups with real-time collaboration features. good
+A modern, feature-rich web application for students to create, join, and manage study groups with real-time collaboration features. good v
 
 ## 🚀 Feature
 
