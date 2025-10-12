@@ -9,7 +9,7 @@ A modern, feature-rich web application for students to create, join, and manage 
 - **Study Group Management** - Create, join, and manage study groups
 - **Real-time Chat** - Instant messaging within groups
 - **File Sharing** - Upload and share study materia
-- **Member Management** - View members and leave groups
+- **Member Management** - View members and leave group
 - **Subject-based Filtering** - Find groups by subject
 - **Search & Sort** - Advanced search and sorting capabilities
 ### Enhanced UI/UX
