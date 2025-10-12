@@ -14,7 +14,7 @@ A modern, feature-rich web application for students to create, join, and manage 
 - **Search & Sort** - Advanced search and sorting capabilities
 ### Enhanced UI/UX
 - **Modern Design** - Beautiful, responsive interface
-- **Mobile-Friendly** - Works perfectly on all devices
+- **Mobile-Friendly** - Works perfectly on allvices
 - **Real-time Updates** - Live data synchronization
 - **Loading States** - Smooth user experience
 - **Error Handling** - Comprehensive error management
