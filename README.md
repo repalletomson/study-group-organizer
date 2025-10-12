@@ -8,7 +8,7 @@ A modern, feature-rich web application for students to create, join, and manage 
 - **User Authentication** - Secure login/signup with Firebase Auth
 - **Study Group Management** - Create, join, and manage study groups
 - **Real-time Chat** - Instant messaging within groups
-- **File Sharing** - Upload and share study materials
+- **File Sharing** - Upload and share study materia
 - **Member Management** - View members and leave groups
 - **Subject-based Filtering** - Find groups by subject
 - **Search & Sort** - Advanced search and sorting capabilities
