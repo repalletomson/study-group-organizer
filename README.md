@@ -12,7 +12,6 @@ A modern, feature-rich web application for students to create, join, and manage 
 - **Member Management** - View members and leave groups
 - **Subject-based Filtering** - Find groups by subject
 - **Search & Sort** - Advanced search and sorting capabilities
-
 ### Enhanced UI/UX
 - **Modern Design** - Beautiful, responsive interface
 - **Mobile-Friendly** - Works perfectly on all devices
