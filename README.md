@@ -4,7 +4,7 @@ A modern, feature-rich web application for students to create, join, and manage 
 
 ## 🚀 Feature
 
-### Core Functionality
+### Core Functionalitycc
 - **User Authentication** - Secure login/signup with Firebase Auth
 - **Study Group Management** - Create, join, and manage study groups
 - **Real-time Chat** - Instant messaging within groups
