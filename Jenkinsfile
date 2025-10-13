@@ -2,7 +2,7 @@ pipeline {
     agent none
     stages {
         stage('Checkout') {
-            agent { label 'master' } // or 'controller'
+            agent { label 'master' } 
             steps {
                 echo 'Cloning repository on controller...'
                 checkout scm
