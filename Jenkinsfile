@@ -2,44 +2,44 @@ pipeline {
     agent none
     stages {
         stage('Checkout') {
-            agent { label 'win' }
+            agent { label 'master' } // or 'controller'
             steps {
-                echo 'Cloning repository...'
+                echo 'Cloning repository on controller...'
                 checkout scm
             }
         }
         stage('Install Dependencies') {
-            agent { label 'win' }
+            agent { label 'win' } // Windows slave node/agent
             steps {
-                echo 'Installing npm packages...'
+                echo 'Installing npm packages on Windows agent...'
                 bat 'npm install'
             }
         }
         stage('Lint') {
             agent { label 'win' }
             steps {
-                echo 'Linting code...'
+                echo 'Linting code on Windows agent...'
                 bat 'npm run lint || exit /b 0'
             }
         }
         stage('Test') {
             agent { label 'win' }
             steps {
-                echo 'Running tests...'
+                echo 'Running tests on Windows agent...'
                 bat 'npm test || exit /b 0'
             }
         }
         stage('Build') {
             agent { label 'win' }
             steps {
-                echo 'Building production assets...'
+                echo 'Building production assets on Windows agent...'
                 bat 'npm run build'
             }
         }
         stage('Archive Build Artifacts') {
-            agent { label 'win' }
+            agent { label 'master' }
             steps {
-                echo 'Archiving build output...'
+                echo 'Archiving build output on controller...'
                 archiveArtifacts artifacts: 'dist/**', fingerprint: true
             }
         }
