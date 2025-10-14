@@ -2,51 +2,48 @@ pipeline {
     agent none
     stages {
         stage('Checkout') {
-            agent { label 'master' } 
+            agent { label 'master' }
             steps {
                 echo 'Cloning repository on controller...'
                 checkout scm
             }
         }
-        stage('Parallel Build') {
+        stage('Build and Archive (Parallel)') {
             parallel {
-                stage('Controller Tasks') {
-                    agent { label 'master' }
-                    steps {
-                        echo 'Archiving build output on controller...'
-                        archiveArtifacts artifacts: 'dist/**', fingerprint: true
-                    }
-                }
-                stage('Aswin Agent Tasks') {
-                    parallel { // nested parallel stages if you want multiple steps concurrently
+                stage('Windows Build (aswin_agent)') {
+                    agent { label 'win' }
+                    stages {
                         stage('Install Dependencies') {
-                            agent { label 'win' }
                             steps {
-                                echo 'Installing npm packages on aswin_agent...'
+                                echo 'Installing npm packages...'
                                 bat 'npm install'
                             }
                         }
                         stage('Lint') {
-                            agent { label 'win' }
                             steps {
-                                echo 'Linting code on aswin_agent...'
+                                echo 'Linting code...'
                                 bat 'npm run lint || exit /b 0'
                             }
                         }
                         stage('Test') {
-                            agent { label 'win' }
                             steps {
-                                echo 'Running tests on aswin_agent...'
+                                echo 'Running tests...'
                                 bat 'npm test || exit /b 0'
                             }
                         }
                         stage('Build') {
-                            agent { label 'master' }
                             steps {
-                                echo 'Building production assets on aswin_agent...'
+                                echo 'Building production assets...'
                                 bat 'npm run build'
                             }
                         }
+                    }
+                }
+                stage('Archive Artifacts (controller)') {
+                    agent { label 'master' }
+                    steps {
+                        echo 'Archiving build output...'
+                        archiveArtifacts artifacts: 'dist/**', fingerprint: true
                     }
                 }
             }
