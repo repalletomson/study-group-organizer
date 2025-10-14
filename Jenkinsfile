@@ -43,7 +43,8 @@ pipeline {
                     agent { label 'master' }
                     steps {
                         echo 'Archiving build output...'
-                        archiveArtifacts artifacts: 'dist/**', fingerprint: true
+                        stash includes: 'dist/**', name: 'buildDist'
+
                     }
                 }
             }
