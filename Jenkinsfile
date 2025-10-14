@@ -10,43 +10,42 @@ pipeline {
         }
         stage('Parallel Build') {
             parallel {
-                controller {
-                    stage('Archive Build Artifacts') {
-                        agent { label 'master' }
-                        steps {
-                            echo 'Archiving build output on controller...'
-                            // change the path according to what was built in aswin_agent
-                            archiveArtifacts artifacts: 'dist/**', fingerprint: true
-                        }
+                stage('Controller Tasks') {
+                    agent { label 'master' }
+                    steps {
+                        echo 'Archiving build output on controller...'
+                        archiveArtifacts artifacts: 'dist/**', fingerprint: true
                     }
                 }
-                aswin_agent {
-                    stage('Install Dependencies') {
-                        agent { label 'win' }
-                        steps {
-                            echo 'Installing npm packages on aswin_agent...'
-                            bat 'npm install'
+                stage('Aswin Agent Tasks') {
+                    parallel { // nested parallel stages if you want multiple steps concurrently
+                        stage('Install Dependencies') {
+                            agent { label 'win' }
+                            steps {
+                                echo 'Installing npm packages on aswin_agent...'
+                                bat 'npm install'
+                            }
                         }
-                    }
-                    stage('Lint') {
-                        agent { label 'win' }
-                        steps {
-                            echo 'Linting code on aswin_agent...'
-                            bat 'npm run lint || exit /b 0'
+                        stage('Lint') {
+                            agent { label 'win' }
+                            steps {
+                                echo 'Linting code on aswin_agent...'
+                                bat 'npm run lint || exit /b 0'
+                            }
                         }
-                    }
-                    stage('Test') {
-                        agent { label 'win' }
-                        steps {
-                            echo 'Running tests on aswin_agent...'
-                            bat 'npm test || exit /b 0'
+                        stage('Test') {
+                            agent { label 'win' }
+                            steps {
+                                echo 'Running tests on aswin_agent...'
+                                bat 'npm test || exit /b 0'
+                            }
                         }
-                    }
-                    stage('Build') {
-                        agent { label 'master' }
-                        steps {
-                            echo 'Building production assets on aswin_agent...'
-                            bat 'npm run build'
+                        stage('Build') {
+                            agent { label 'master' }
+                            steps {
+                                echo 'Building production assets on aswin_agent...'
+                                bat 'npm run build'
+                            }
                         }
                     }
                 }
