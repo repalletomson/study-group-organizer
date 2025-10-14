@@ -8,39 +8,48 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install Dependencies') {
-            agent { label 'win' } // Windows slave node/agent
-            steps {
-                echo 'Installing npm packages on Windows agent...'
-                bat 'npm install'
-            }
-        }
-        stage('Lint') {
-            agent { label 'win' }
-            steps {
-                echo 'Linting code on Windows agent...'
-                bat 'npm run lint || exit /b 0'
-            }
-        }
-        stage('Test') {
-            agent { label 'win' }
-            steps {
-                echo 'Running tests on Windows agent...'
-                bat 'npm test || exit /b 0'
-            }
-        }
-        stage('Build') {
-            agent { label 'win' }
-            steps {
-                echo 'Building production assets on Windows agent...'
-                bat 'npm run build'
-            }
-        }
-        stage('Archive Build Artifacts') {
-            agent { label 'master' }
-            steps {
-                echo 'Archiving build output on controller...'
-                archiveArtifacts artifacts: 'dist/**', fingerprint: true
+        stage('Parallel Build') {
+            parallel {
+                controller {
+                    stage('Archive Build Artifacts') {
+                        agent { label 'master' }
+                        steps {
+                            echo 'Archiving build output on controller...'
+                            // change the path according to what was built in aswin_agent
+                            archiveArtifacts artifacts: 'dist/**', fingerprint: true
+                        }
+                    }
+                }
+                aswin_agent {
+                    stage('Install Dependencies') {
+                        agent { label 'aswin_agent' }
+                        steps {
+                            echo 'Installing npm packages on aswin_agent...'
+                            bat 'npm install'
+                        }
+                    }
+                    stage('Lint') {
+                        agent { label 'aswin_agent' }
+                        steps {
+                            echo 'Linting code on aswin_agent...'
+                            bat 'npm run lint || exit /b 0'
+                        }
+                    }
+                    stage('Test') {
+                        agent { label 'aswin_agent' }
+                        steps {
+                            echo 'Running tests on aswin_agent...'
+                            bat 'npm test || exit /b 0'
+                        }
+                    }
+                    stage('Build') {
+                        agent { label 'aswin_agent' }
+                        steps {
+                            echo 'Building production assets on aswin_agent...'
+                            bat 'npm run build'
+                        }
+                    }
+                }
             }
         }
     }
