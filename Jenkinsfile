@@ -22,28 +22,28 @@ pipeline {
                 }
                 aswin_agent {
                     stage('Install Dependencies') {
-                        agent { label 'aswin_agent' }
+                        agent { label 'win' }
                         steps {
                             echo 'Installing npm packages on aswin_agent...'
                             bat 'npm install'
                         }
                     }
                     stage('Lint') {
-                        agent { label 'aswin_agent' }
+                        agent { label 'win' }
                         steps {
                             echo 'Linting code on aswin_agent...'
                             bat 'npm run lint || exit /b 0'
                         }
                     }
                     stage('Test') {
-                        agent { label 'aswin_agent' }
+                        agent { label 'win' }
                         steps {
                             echo 'Running tests on aswin_agent...'
                             bat 'npm test || exit /b 0'
                         }
                     }
                     stage('Build') {
-                        agent { label 'aswin_agent' }
+                        agent { label 'master' }
                         steps {
                             echo 'Building production assets on aswin_agent...'
                             bat 'npm run build'
